@@ -79,11 +79,12 @@ public class TwoDimRaggedArrayUtility {
 			// write to file
 			for (int i = 0; i < data.length; i++) {
 				for (int j = 0; j < data[i].length; j++) {
-					writeToFile.print(data[i][j]);
+					writeToFile.print(data[i][j] + " ");
 				}
-				// close file
-				writeToFile.close();
+				writeToFile.println();
 			}
+			// close file
+			writeToFile.close();
 		} else {
 			System.out.println("File does not exit");
 			System.exit(0);
@@ -103,7 +104,7 @@ public class TwoDimRaggedArrayUtility {
 		double total = 0;
 
 		for (int row = 0; row < data.length; row++) {
-			for (int col = 0; col < data.length; col++)
+			for (int col = 0; col < data[row].length; col++)
 				total += data[row][col];
 		}
 		return total;
@@ -116,8 +117,15 @@ public class TwoDimRaggedArrayUtility {
 	 * @return average
 	 */
 	public static double getAverage(double[][] data) {
-		double average = getTotal(data) / (data.length);
-		return average;
+		double total = 0;
+		int elements = 0;
+		for (int row = 0; row < data.length; row++) {
+			for (int col = 0; col < data[row].length; col++) {
+				total += data[row][col];
+				elements++;
+			}
+		}
+		return total / elements;
 	}
 
 	/**
@@ -132,7 +140,7 @@ public class TwoDimRaggedArrayUtility {
 		// holds index 0
 		double rowTotal = 0;
 
-		for (int i = 0; i < data.length; i++) {
+		for (int i = 0; i < data[row].length; i++) {
 			rowTotal += data[row][i];
 		}
 		return rowTotal;
@@ -151,7 +159,8 @@ public class TwoDimRaggedArrayUtility {
 		double colTotal = 0;
 
 		for (int j = 0; j < data.length; j++) {
-			colTotal += data[j][col];
+			if (col < data[j].length)
+				colTotal += data[j][col];
 		}
 		return colTotal;
 	}
@@ -258,11 +267,13 @@ public class TwoDimRaggedArrayUtility {
 	public static double getHighestInColumn(double[][] data, int col) {
 
 		// holds highest number at col
-		double largestCol = data[0][col];
+		double largestCol = Double.MIN_VALUE;
 
 		for (int i = 1; i < data.length; i++) {
-			if (largestCol < data[i][col]) {
-				largestCol = data[i][col];
+			if (col < data[i].length) {
+				if (largestCol < data[i][col]) {
+					largestCol = data[i][col];
+				}
 			}
 		}
 		return largestCol;
@@ -282,14 +293,16 @@ public class TwoDimRaggedArrayUtility {
 		int largestColIndex = 0;
 
 		// holds highest number is a row
-		double largestRow = data[0][col];
+		double largestRow = Double.MIN_VALUE;
 
 		for (int i = 1; i < data.length; i++) {
-			if (data[largestColIndex][col] < data[i][col]) {
-				// largest number
-				largestRow = data[i][col];
-				// largest index
-				largestColIndex = i;
+			if (col < data[i].length) {
+				if (data[largestColIndex][col] < data[i][col]) {
+					// largest number
+					largestRow = data[i][col];
+					// largest index
+					largestColIndex = i;
+				}
 			}
 		}
 		return largestColIndex;
@@ -306,11 +319,13 @@ public class TwoDimRaggedArrayUtility {
 	public static double getLowestInColumn(double[][] data, int col) {
 
 		// holds highest number at col
-		double lowestCol = data[0][col];
+		double lowestCol = Double.MIN_VALUE;
 
 		for (int i = 1; i < data.length; i++) {
-			if (lowestCol > data[i][col]) {
-				lowestCol = data[i][col];
+			if (col < data[i].length) {
+				if (lowestCol > data[i][col]) {
+					lowestCol = data[i][col];
+				}
 			}
 		}
 		return lowestCol;
@@ -329,16 +344,19 @@ public class TwoDimRaggedArrayUtility {
 		int lowestColIndex = 0;
 
 		// holds highest number is a row
-		double lowestCol = data[0][col];
+		double lowestCol = Double.MIN_VALUE;
 
 		for (int i = 1; i < data.length; i++) {
-			if (data[lowestColIndex][col] > data[i][col]) {
-				// largest number
-				lowestCol = data[i][col];
-				// largest index
-				lowestColIndex = i;
+			if (col < data[i].length) {
+				if (data[lowestColIndex][col] > data[i][col]) {
+					// largest number
+					lowestCol = data[i][col];
+					// largest index
+					lowestColIndex = i;
+				}
 			}
 		}
+
 		return lowestColIndex;
 
 	}

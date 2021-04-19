@@ -35,14 +35,8 @@ public class HolidayBonus {
 				} else if (i == TwoDimRaggedArrayUtility.getLowestInRowIndex(data, i)) {
 					if (data[i][j] > 0)
 						bonuses[i] += low;		//add 1000
-				} else if (i != TwoDimRaggedArrayUtility.getHighestInRowIndex(data, i)
-						&& i != TwoDimRaggedArrayUtility.getLowestInRowIndex(data, i) && i >= 0) {
-					if (data[i][j] > 0)
-						bonuses[i] += other;	//add 2000 bonus
-					else if (data[i][j] <= 0)
-						bonuses[i] += 0;		//add 0 bonus
-					else if(data[i++][j] == Double.parseDouble(null))
-						bonuses[i] += high;
+				} else { 
+					bonuses[i] += other;
 				}
 			}
 		}
@@ -50,7 +44,7 @@ public class HolidayBonus {
 	}
 
 	/**
-	 * calculate the sum of all bonusesf
+	 * calculate the sum of all bonuses
 	 * @param data
 	 * @return
 	 * 
