@@ -22,19 +22,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class MyGuiFxA extends Application {;
+public class MyGuiFxA extends Application {
+	;
 	private double[][] sales;
 	public static final int MAX_STORES = 6;
 	public static final int MAX_ITEMS = 6;
 	private NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 	Button readFileBtn, exitBtn, copyFileBtn;
 	GridPane dataPane;
-	
 
 	/**
-	 * Lets the user choose a file to read the sales information and displays
-	 * the information on the screen
-	 * @throws FileNotFoundException 
+	 * Lets the user choose a file to read the sales information and displays the
+	 * information on the screen
+	 * 
+	 * @throws FileNotFoundException
 	 */
 	public void readFile() throws FileNotFoundException {
 		File selectedFile;
@@ -45,96 +46,93 @@ public class MyGuiFxA extends Application {;
 			// Read the file
 			sales = TwoDimRaggedArrayUtility.readFile(selectedFile);
 		}
-		//clear table
+		// clear table
 		clearTable();
-		//display on the screen
-		int row,col;
+		// display on the screen
+		int row, col;
 		double total, lowest, highest;
-		for(row=0;row<sales.length; row++)
-			for(col=0;col<sales[row].length;col++)
-				dataPane.add(new TextField(currencyFormat.format(sales[row][col])),col+1,row+1);
+		for (row = 0; row < sales.length; row++)
+			for (col = 0; col < sales[row].length; col++)
+				dataPane.add(new TextField(currencyFormat.format(sales[row][col])), col + 1, row + 1);
 
-		//display row totals
-		for(row=0;row<sales.length;row++)
-		{
+		// display row totals
+		for (row = 0; row < sales.length; row++) {
 			total = TwoDimRaggedArrayUtility.getRowTotal(sales, row);
-			dataPane.add(new TextField(currencyFormat.format(total)), 7, row+1);
+			dataPane.add(new TextField(currencyFormat.format(total)), 7, row + 1);
 		}
 
-		//find the row with largest number of columns
+		// find the row with largest number of columns
 		int columns = 0;
-		for(row=0;row<sales.length;row++)
-			if(sales[row].length > columns) columns = sales[row].length;
+		for (row = 0; row < sales.length; row++)
+			if (sales[row].length > columns)
+				columns = sales[row].length;
 
-		//display column totals
-		for(col=0;col<columns;col++)
-		{
+		// display column totals
+		for (col = 0; col < columns; col++) {
 			total = TwoDimRaggedArrayUtility.getColumnTotal(sales, col);
-			dataPane.add(new TextField(currencyFormat.format(total)), col+1, 7);
+			dataPane.add(new TextField(currencyFormat.format(total)), col + 1, 7);
 		}
-		
-		
-		//display total of all sales
+
+		// display total of all sales
 		total = TwoDimRaggedArrayUtility.getTotal(sales);
 		dataPane.add(new TextField(currencyFormat.format(total)), 7, 7);
-		
-		//display holiday bonuses
+
+		// display holiday bonuses
 		double[] result = HolidayBonus.calculateHolidayBonus(sales, 5000, 1000, 2000);
-		for(row=0;row<sales.length;row++){
-			dataPane.add(new TextField(currencyFormat.format(result[row])), 8, row+1);
+		for (row = 0; row < sales.length; row++) {
+			dataPane.add(new TextField(currencyFormat.format(result[row])), 8, row + 1);
 		}
-		
-		//display total of holiday bonuses
+
+		// display total of holiday bonuses
 		double bonus = HolidayBonus.calculateTotalHolidayBonus(sales, 5000, 1000, 2000);
 		dataPane.add(new TextField(currencyFormat.format(bonus)), 8, 7);
 
-		//find highest in each column
-		for(col=0;col<columns;col++)
-		{
+		// find highest in each column
+		for (col = 0; col < columns; col++) {
 			highest = TwoDimRaggedArrayUtility.getHighestInColumn(sales, col);
 			TextField temp = new TextField(currencyFormat.format(highest));
 			temp.setStyle("-fx-background-color: green;");
-			for(row=0;row<sales.length;row++) {
-				if(col < sales[row].length){
-					if(sales[row][col]==highest)
-						dataPane.add(temp, col+1, row+1);
+			for (row = 0; row < sales.length; row++) {
+				if (col < sales[row].length) {
+					if (sales[row][col] == highest)
+						dataPane.add(temp, col + 1, row + 1);
 				}
 			}
 		}
 
-		//find lowest in each column
+		// find lowest in each column
 
-			for(col=0;col<columns;col++)
-			{
-				lowest = TwoDimRaggedArrayUtility.getLowestInColumn(sales, col);
-				highest = TwoDimRaggedArrayUtility.getHighestInColumn(sales, col);
-				if (lowest == highest) continue;
-				TextField temp = new TextField(currencyFormat.format(lowest));
-				temp.setStyle("-fx-background-color: red;");
-				for(row=0;row<sales.length;row++) {
-					if(col < sales[row].length){
-						if(sales[row][col]==lowest)
-							dataPane.add(temp, col+1, row+1);
-					}
+		for (col = 0; col < columns; col++) {
+			lowest = TwoDimRaggedArrayUtility.getLowestInColumn(sales, col);
+			highest = TwoDimRaggedArrayUtility.getHighestInColumn(sales, col);
+			if (lowest == highest)
+				continue;
+			TextField temp = new TextField(currencyFormat.format(lowest));
+			temp.setStyle("-fx-background-color: red;");
+			for (row = 0; row < sales.length; row++) {
+				if (col < sales[row].length) {
+					if (sales[row][col] == lowest)
+						dataPane.add(temp, col + 1, row + 1);
 				}
 			}
-		
+		}
+
 	}
-	
+
 	/**
-	 * Lets the user choose name and location to copy the file used for
-	 * the information on the screen
-	 * @throws FileNotFoundException 
+	 * Lets the user choose name and location to copy the file used for the
+	 * information on the screen
+	 * 
+	 * @throws FileNotFoundException
 	 */
-	public void copyFile() throws FileNotFoundException
-	{
+	public void copyFile() throws FileNotFoundException {
 		File selectedFile;
 
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Name and Location of copied file");
 		if ((selectedFile = chooser.showSaveDialog(null)) != null) {
 			// Read the file
-			TwoDimRaggedArrayUtility.writeToFile(sales,selectedFile);
+			TwoDimRaggedArrayUtility.writeToFile(sales, selectedFile);
 		}
 	}
 
@@ -142,7 +140,7 @@ public class MyGuiFxA extends Application {;
 	private class ButtonEventHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent e) {
-			//handler for Load Sales Data
+			// handler for Load Sales Data
 			if (e.getSource() == readFileBtn) {
 
 				try {
@@ -153,7 +151,7 @@ public class MyGuiFxA extends Application {;
 				}
 			}
 
-			//handler for Load Sales Data
+			// handler for Load Sales Data
 			if (e.getSource() == copyFileBtn) {
 
 				try {
@@ -162,8 +160,8 @@ public class MyGuiFxA extends Application {;
 					e1.printStackTrace();
 				}
 
-				//handler for Exit button
-			}  else if (e.getSource() == exitBtn)
+				// handler for Exit button
+			} else if (e.getSource() == exitBtn)
 
 				System.exit(0);
 		}
@@ -171,10 +169,9 @@ public class MyGuiFxA extends Application {;
 
 	@Override
 	public void start(Stage stage) {
-		
+
 		Tooltip buttonToolTipArr[] = new Tooltip[5];
-		buttonToolTipArr[0] = new Tooltip(
-				"Load sales data from a file and Display");
+		buttonToolTipArr[0] = new Tooltip("Load sales data from a file and Display");
 		buttonToolTipArr[1] = new Tooltip("Exit Application");
 
 		// Main Pane
@@ -199,8 +196,7 @@ public class MyGuiFxA extends Application {;
 		HBox columnHeaderPane = new HBox(10);
 		columnHeaderPane.setAlignment(Pos.CENTER);
 
-		
-		int i,j;
+		int i, j;
 		dataPane = new GridPane();
 		dataPane.setAlignment(Pos.BASELINE_CENTER);
 		dataPane.add(new Label("     "), 0, 0);
@@ -212,15 +208,13 @@ public class MyGuiFxA extends Application {;
 		dataPane.add(new Label("Marvel"), 6, 0);
 		dataPane.add(new Label("Total"), 7, 0);
 		dataPane.add(new Label("Holiday Bonus"), 8, 0);
-		
-		for(i=1;i<9;i++)
-		{
-			dataPane.add(new Label("     "), 0,i);
-			for(j = 1; j<8;j++)
-				dataPane.add(new TextField(), i,j);
+
+		for (i = 1; i < 9; i++) {
+			dataPane.add(new Label("     "), 0, i);
+			for (j = 1; j < 8; j++)
+				dataPane.add(new TextField(), i, j);
 		}
-		
-	
+
 		dataPane.add(new Label("Emporium"), 0, 1);
 		dataPane.add(new Label("World Traveler"), 0, 2);
 		dataPane.add(new Label("Discovery Trading Center"), 0, 3);
@@ -228,8 +222,8 @@ public class MyGuiFxA extends Application {;
 		dataPane.add(new Label("Once Upon a Toy"), 0, 5);
 		dataPane.add(new Label("Tatooine Traders"), 0, 6);
 		dataPane.add(new Label("Total"), 0, 7);
-		
-		//put in buttons and labels for high and low
+
+		// put in buttons and labels for high and low
 		Button high = new Button("  ");
 		high.setStyle("-fx-background-color: green;");
 		dataPane.setHalignment(high, HPos.RIGHT);
@@ -237,11 +231,11 @@ public class MyGuiFxA extends Application {;
 		Button low = new Button("  ");
 		low.setStyle("-fx-background-color: red;");
 		dataPane.setHalignment(low, HPos.RIGHT);
-		
-		dataPane.add(high, 0,9);
-		dataPane.add(low, 0,10);
+
+		dataPane.add(high, 0, 9);
+		dataPane.add(low, 0, 10);
 		dataPane.add(new Label("Highest Sales in Category"), 1, 9);
-		dataPane.add(new Label("Lowest Sales in Category"), 1,10);
+		dataPane.add(new Label("Lowest Sales in Category"), 1, 10);
 
 		// Create bottom Pane
 		HBox bottomPane = new HBox(10);
@@ -281,19 +275,17 @@ public class MyGuiFxA extends Application {;
 	/**
 	 * Clears the numeric fields on the screen
 	 */
-	public void clearTable()
-	{
-		TextField field= new TextField();
-		int i,j;
-		
-		for(i=1;i<7;i++)
-		{
-			for(j = 1; j<8;j++)
-				dataPane.add(new TextField(), i,j);
+	public void clearTable() {
+		TextField field = new TextField();
+		int i, j;
+
+		for (i = 1; i < 7; i++) {
+			for (j = 1; j < 8; j++)
+				dataPane.add(new TextField(), i, j);
 		}
-		
+
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}

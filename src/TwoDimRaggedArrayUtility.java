@@ -33,7 +33,7 @@ public class TwoDimRaggedArrayUtility {
 		Scanner readThisFile = new Scanner(file);
 
 		while (readThisFile.hasNextLine()) {
-			//String[] data = readThisFile.nextLine().trim().split(" ");
+			// String[] data = readThisFile.nextLine().trim().split(" ");
 			rowNumber++; // count number of rows
 		}
 
