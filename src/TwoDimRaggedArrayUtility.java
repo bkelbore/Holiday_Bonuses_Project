@@ -27,29 +27,47 @@ public class TwoDimRaggedArrayUtility {
 
 		int rowNumber = 0;
 		int colNumber = 0;
-		int countElements = 0;
 
 		// read file
 		Scanner readThisFile = new Scanner(file);
 
-		while (readThisFile.hasNextLine()) {
-			// String[] data = readThisFile.nextLine().trim().split(" ");
-			rowNumber++; // count number of rows
-		}
+		String[][] mylist = new String[10][10];
+		try {
+			while (readThisFile.hasNext()) {
 
-		// store into 2d
+				String[] list = readThisFile.nextLine().split(" ");
 
-		double[][] doubleList = new double[rowNumber][];
+				mylist[rowNumber] = new String[list.length];
 
-		// print the double list
-		for (int row = 0; row < doubleList.length; row++) {
-			for (int col = 0; col < doubleList[row].length; col++) {
-				doubleList[row][col] = Double.parseDouble(readThisFile.next());
+				// number of col
+				colNumber = list.length;
+
+				for (int i = 0; i < list.length; i++)
+					mylist[rowNumber][i] = list[i];
+				rowNumber++; // count number of rows
+
 			}
+		} catch (Exception ex) {
+			System.out.println("File not found");
 		}
 
 		// stored in array
 		readThisFile.close();
+
+		// store into 2d
+
+		double[][] doubleList = new double[rowNumber][colNumber];
+
+		// print the double list
+		for (int row = 0; row < doubleList.length; row++) {
+			if (mylist[rowNumber] != null) {
+				int size = doubleList[row].length;
+				doubleList[row] = new double[size];
+				for (int col = 0; col < mylist[row].length; col++) {
+					doubleList[row][col] = Double.parseDouble(mylist[row][col]);
+				}
+			}
+		}
 
 		return doubleList;
 	}

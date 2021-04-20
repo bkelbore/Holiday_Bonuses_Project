@@ -23,7 +23,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class MyGuiFxA extends Application {
-	;
 	private double[][] sales;
 	public static final int MAX_STORES = 6;
 	public static final int MAX_ITEMS = 6;

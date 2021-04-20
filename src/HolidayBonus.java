@@ -27,15 +27,15 @@ public class HolidayBonus {
 		// hold bonus array
 		double[] bonuses = new double[storeNumber];
 
-		for (int i = 0; i < bonuses.length; i++) {
+		for (int i = 0; i < data.length; i++) {
 			for (int j = 0; j < bonuses.length; j++) {
 				if (i == TwoDimRaggedArrayUtility.getHighestInRowIndex(data, i)) {
 					if (data[i][j] > 0)
-						bonuses[i] += high;		//add 5000
+						bonuses[i] += high; // add 5000
 				} else if (i == TwoDimRaggedArrayUtility.getLowestInRowIndex(data, i)) {
 					if (data[i][j] > 0)
-						bonuses[i] += low;		//add 1000
-				} else { 
+						bonuses[i] += low; // add 1000
+				} else {
 					bonuses[i] += other;
 				}
 			}
@@ -45,6 +45,7 @@ public class HolidayBonus {
 
 	/**
 	 * calculate the sum of all bonuses
+	 * 
 	 * @param data
 	 * @return
 	 * 
@@ -57,7 +58,7 @@ public class HolidayBonus {
 		// accumulate total
 		double bonusTotal = 0;
 
-		for (int i = 0; i < bonusList.length; i++)
+		for (int i = 0; i < data.length; i++)
 			bonusTotal += bonusList[i];
 
 		// return total
