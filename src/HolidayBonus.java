@@ -28,15 +28,15 @@ public class HolidayBonus {
 		double[] bonuses = new double[storeNumber];
 
 		for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < bonuses.length; j++) {
-				if (i == TwoDimRaggedArrayUtility.getHighestInRowIndex(data, i)) {
-					if (data[i][j] > 0)
+			for (int j = 0; j < data[i].length; j++) {
+				if (data[i][j] > 0) {
+				if (data[i][j] == TwoDimRaggedArrayUtility.getHighestInColumn(data, j)) {
 						bonuses[i] += high; // add 5000
-				} else if (i == TwoDimRaggedArrayUtility.getLowestInRowIndex(data, i)) {
-					if (data[i][j] > 0)
+				} else if (data[i][j] == TwoDimRaggedArrayUtility.getLowestInColumn(data, j)) {
 						bonuses[i] += low; // add 1000
 				} else {
-					bonuses[i] += other;
+						bonuses[i] += other;
+				}
 				}
 			}
 		}
